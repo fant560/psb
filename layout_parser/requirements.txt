@@ -1,0 +1,8 @@
+celery==5.1.2
+Flask==2.0.1
+Flask-WTF==0.15.1
+flower==1.0.0
+pytest==6.2.4
+redis==3.5.3
+pdf2image==1.16.0
+jsonpickle==2.0.0
