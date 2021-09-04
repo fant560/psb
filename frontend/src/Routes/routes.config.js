@@ -10,10 +10,12 @@ import {
   REGISTER_PAGE,
   PSB_DOCUMENTS_PAGE,
   PSB_FILE_UPLOAD,
-  PSB_ARCHIVE_UPLOAD
+  PSB_ARCHIVE_UPLOAD,
+  PSB_DOCUMENTS_LIST
 } from './routes.paths'
 import ArchiveUpload from '../pages/ArchiveUpload/ArchiveUpload'
 import FileUpload from '../pages/FileUpload/FileUpload'
+import DocumentsGridMain from '../pages/DocumentsGrid/DocumentsGridMain'
 
 export const routesForAuthUsers = [
   // {
@@ -34,6 +36,10 @@ export const routesForAuthUsers = [
 ]
 
 export const insideAppRoutes = [
+  {
+    path: PSB_DOCUMENTS_LIST,
+    component: <DocumentsGridMain/>
+  },
   {
     path: PSB_FILE_UPLOAD,
     component: <FileUpload />,

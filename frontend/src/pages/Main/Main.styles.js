@@ -20,7 +20,7 @@ export const mainPageSiderStyle = {
 
 export const searchStyle = {
   width: '80%',
-  marginTop: '24px'
+  marginTop: '0px'
 }
 
 export const buttonStyle = {
