@@ -1,6 +1,6 @@
 import { List, Card, Layout, Row, Col } from 'antd'
 import { searchStyle } from '../Main/Main.styles'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import moment from 'moment'
 import { Input, Form, DatePicker, Tooltip } from 'antd'
 import { useHttp } from '../../hooks/http.hook'
@@ -44,6 +44,16 @@ const DocumentsListMain = () => {
             document.title.toLowerCase().includes(searchQuery.toLowerCase())
         )
     }, [searchQuery, filteredDocuments])
+
+    useEffect(() => {
+
+        const getDocuments = async () => {
+            const data = await request('/api/index', 'GET', null)
+            setDocuments(data.documents)
+        }
+
+        getDocuments()
+    }, [request])
 
 
     return (
