@@ -4,6 +4,7 @@ from celery.result import AsyncResult
 from flask import render_template, Blueprint, jsonify, request
 from werkzeug.utils import secure_filename
 import json
+import hashlib
 
 from project.server.tasks import create_task
 
@@ -43,9 +44,12 @@ def get_status(task_id):
         "task_status": task_result.status,
         "task_result": result_data
     }
-    return jsonify(result), 200
+    return json.dumps(result, ensure_ascii=False).encode('utf8'), 200
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+
+def file_extension(filename):
+    return filename.rsplit('.', 1)[1].lower()  
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -77,7 +81,12 @@ def annoate_document():
     if file.filename == '':
         return jsonify({'status': "error", 'message': "File filename is empty"}), 400
     if file and allowed_file(file.filename):
+        file_ext = file_extension(file.filename) 
+        print(f"Uploaded file filename {file.filename}")
         sec_filename = secure_filename(file.filename)
+        if not sec_filename or not sec_filename.endswith(f".{file_ext}"):
+            sec_filename = hashlib.md5(file.filename.encode('utf-8')).hexdigest() + f".{file_ext}"
+        print(f"Secure filename \"{sec_filename}\"")
         uploaded_file_path = os.path.join(UPLOADS_DIR, sec_filename)
         file.save(uploaded_file_path)
 

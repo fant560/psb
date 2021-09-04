@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.psb.backend_java.service.DocumentService;
 import ru.psb.backend_java.service.FileService;
 
 import java.io.File;
@@ -27,10 +28,11 @@ public class MainApplicationController {
     @Value("${root.document.folder:psb}")
     private String rootDocumentFolder;
     private final FileService fileService;
+    private final DocumentService documentService;
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     @PostMapping(value = "/uploadArchive")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<?> uploadArchive(@RequestParam("file") MultipartFile multipartFile) {
         var split = multipartFile.getOriginalFilename().split("\\.");
         var extension = split[split.length - 1];
         if (extension.equals("gz") || extension.equals("zip") || extension.equals("tar")) {
@@ -40,6 +42,15 @@ public class MainApplicationController {
             return ResponseEntity.status(400)
                     .body("Неправильный формат архива, ожидалось tar/gz/zip");
         }
+    }
+
+    @PostMapping(value = "/uploadDocument")
+    public ResponseEntity<?> uploadDocument(@RequestParam("file") MultipartFile multipartFile,
+                                            @RequestHeader("inn") String inn,
+                                            @RequestHeader("nomenclature") String nomenclature) {
+        executorService.submit(() -> documentService.process(inn, nomenclature, multipartFile));
+        return ResponseEntity.ok().build();
+
     }
 
     @GetMapping(value = "/getDocuments")

@@ -15,7 +15,6 @@ def create_app(script_info=None):
     # set config
     app_settings = os.getenv("APP_SETTINGS")
     app.config.from_object(app_settings)
-    app.config['JSON_AS_ASCII'] = False
 
     # register blueprints
     from project.server.main.views import main_blueprint
