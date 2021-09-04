@@ -6,16 +6,16 @@ export const mainLayoutStyles = {
 }
 
 export const mainLayoutHeaderStyles = {
-  background: theme.backgroundColor2,
+  background: '#051529',
   display: 'flex',
   alignItems: 'center',
-  borderRadius: ' 0 0 5px 5px',
   marginBottom: '20px'
 }
 
 export const headerLogoStyles = {
   fontSize: '40px',
-  marginRight: '10px'
+  marginRight: '10px',
+  color: '#FFFFFF'
 }
 
 export const usernameHeaderStyles = {
@@ -24,17 +24,18 @@ export const usernameHeaderStyles = {
   marginRight: '20px',
   display: 'flex',
   alignItems: 'center',
-  gap: '5px'
+  gap: '5px',
+  color: '#FFFFFF'
 }
 
 export const headerTitleStyles = {
-  fontSize: '25px'
+  fontSize: '25px',
+  color: '#FFFFFF'
 }
 
 export const mainLayoutContentStyles = {
   background: theme.backgroundColor2,
   height: 'calc(100% - 84px)',
-  borderRadius: '5px 5px 0 0',
   overflow: 'hidden'
 }
 
@@ -42,7 +43,6 @@ export const containerStyles = {
   margin: '0 auto',
   maxWidth: '100%',
   height: '100%',
-  padding: '0 20px'
 }
 
 export const linkLogoStyles = {
