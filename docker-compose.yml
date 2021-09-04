@@ -30,7 +30,7 @@ services:
       - "3000:3000"
     depends_on:
       - web
-  java_backend:
+  javabackend:
     build:
       context: ./backend_java
       dockerfile: Dockerfile
