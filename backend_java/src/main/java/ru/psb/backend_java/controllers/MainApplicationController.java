@@ -36,12 +36,14 @@ public class MainApplicationController {
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     @PostMapping(value = "/uploadArchive")
-    public ResponseEntity<?> uploadArchive(@RequestParam("file") MultipartFile multipartFile) {
+    public ResponseEntity<?> uploadArchive(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         var split = multipartFile.getOriginalFilename().split("\\.");
+        var content = multipartFile.getBytes();
+        var filename = multipartFile.getOriginalFilename();
         var extension = split[split.length - 1];
         if (extension.equals("gz") || extension.equals("zip") || extension.equals("tar")) {
-            executorService.submit(() -> fileService.process(multipartFile));
-            return ResponseEntity.ok().build();
+            executorService.submit(() -> fileService.process(content));
+            return ResponseEntity.ok("Success");
         } else {
             return ResponseEntity.status(400)
                     .body("Неправильный формат архива, ожидалось tar/gz/zip");
@@ -89,6 +91,20 @@ public class MainApplicationController {
             }
         });
         return ResponseEntity.ok(documentMap);
+    }
+
+    @GetMapping(value = "/document/{id}")
+    public ResponseEntity<?> getDocument(@PathVariable("id") Long documentId) {
+        return ResponseEntity.ok(documentService.findById(documentId));
+    }
+
+    @PostMapping(value = "/response")
+    public void response(@RequestHeader(value = "filename") String filename,
+                         @RequestHeader(value = "nomenclatureId") String nomenclatureId,
+                         @RequestHeader(value = "title") String title,
+                         @RequestHeader(value = "documentId") String documentId,
+                         @RequestBody String body) throws Exception {
+        documentService.afterProcessing(filename, nomenclatureId, title, body, Long.parseLong(documentId));
     }
 
     @PreDestroy

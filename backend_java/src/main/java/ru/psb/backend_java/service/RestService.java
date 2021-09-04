@@ -28,10 +28,11 @@ public class RestService {
     @Value("${nodes.node.3:http://localhost:8082/api/upload}")
     private String node3;
 
-    public void process(String filename, byte[] file) {
+    public void process(String filename, byte[] file, Long documentId) {
         var hash = file.hashCode();
         var headers = new HttpHeaders();
         headers.put("filename", List.of(filename));
+        headers.put("documentId", List.of(documentId.toString()));
         headers.put(HttpHeaders.CONTENT_TYPE, List.of("application/octet-stream"));
         var map = new HashMap<String, Object>();
         if (hash % 3 == 0) {

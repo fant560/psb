@@ -44,7 +44,7 @@ def get_status(task_id):
         "task_status": task_result.status,
         "task_result": result_data
     }
-    return json.dumps(result, ensure_ascii=False).encode('utf8'), 200
+    return json.dumps(result, ensure_ascii=False).encode('utf8'), 200, {'Content-type' : 'application/json; charset=utf-8'}
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 

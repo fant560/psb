@@ -1,5 +1,6 @@
 package com.example.nodes.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import java.nio.file.attribute.FileAttribute;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -31,6 +33,7 @@ import java.util.regex.Pattern;
 public class MainApplicationController {
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${text.recognition.url:http://localhost:5004/annotate_document}")
     private String textRecognition;
@@ -42,13 +45,15 @@ public class MainApplicationController {
     private String gatewayUrl;
 
     @RequestMapping(value = "/upload")
-    public void upload(@RequestBody byte[] file, @RequestHeader("filename") String filename) throws Exception {
+    public void upload(@RequestBody byte[] file,
+                       @RequestHeader("filename") String filename,
+                       @RequestHeader("documentId") Long documentId) throws Exception {
         log.info("Received file - {}, bytearraysize - {}", filename, file.length);
 
         LinkedMultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         var split = filename.split("\\.");
         var extension = split[split.length - 1];
-        var tempFile = Files.createTempFile(filename, extension);
+        var tempFile = Files.createTempFile(UUID.randomUUID().toString(), "." + extension);
         Files.write(tempFile, file);
         params.add("file", new FileSystemResource(tempFile));
 
@@ -62,13 +67,14 @@ public class MainApplicationController {
                 String.class);
         var responseText = new StringBuilder();
         HttpStatus statusCode = responseEntity.getStatusCode();
-        if (statusCode == HttpStatus.ACCEPTED) {
-            String code = responseEntity.getBody();
+        if (statusCode == HttpStatus.OK) {
+            var response = objectMapper.readValue(responseEntity.getBody(), Map.class);
             boolean loading = true;
             while (loading) {
-                TimeUnit.SECONDS.sleep(30L);
-                Map<String, Object> result = restTemplate.exchange(URI.create(taskStatus + code), HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
-                }).getBody();
+                TimeUnit.SECONDS.sleep(5L);
+                var resp = restTemplate.exchange(URI.create(taskStatus + (String) response.get("task_id")), HttpMethod.GET, null,
+                        String.class).getBody();
+                var result = objectMapper.readValue(resp, Map.class);
                 if (result.containsKey("task_status")) {
                     var status = (String) result.get("task_status");
                     if (status.equals("SUCCESS")) {
@@ -101,6 +107,8 @@ public class MainApplicationController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("filename", filename);
             headers.add("nomenclatureId", nomenclatureId);
+            headers.add("documentId", documentId.toString());
+            headers.add("title", "Бухгалтерская отчётность");
             RequestEntity request = new RequestEntity(body, headers, HttpMethod.POST, URI.create(gatewayUrl));
             restTemplate.exchange(request, Void.class);
             // TODO uncomment
@@ -117,6 +125,20 @@ public class MainApplicationController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("filename", filename);
             headers.add("nomenclatureId", nomenclatureId);
+            headers.add("title", "Устав");
+            headers.add("documentId", documentId.toString());
+            var request = new RequestEntity(body, headers, HttpMethod.POST, URI.create(gatewayUrl));
+            restTemplate.exchange(request, Void.class);
+            return;
+        }
+        if (textToProcess.contains("о Совете директоров")) {
+            String body = "Юридическое досье/Учредительные и иные документы/" + filename;
+            String nomenclatureId = "555ced1c-c169-4d61-9a82-348801494581";
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("filename", filename);
+            headers.add("nomenclatureId", nomenclatureId);
+            headers.add("title", "Положение о СД");
+            headers.add("documentId", documentId.toString());
             var request = new RequestEntity(body, headers, HttpMethod.POST, URI.create(gatewayUrl));
             restTemplate.exchange(request, Void.class);
             return;

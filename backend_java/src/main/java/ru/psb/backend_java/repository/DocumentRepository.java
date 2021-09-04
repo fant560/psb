@@ -6,4 +6,6 @@ import ru.psb.backend_java.entity.Document;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
+
+    Document findFirstByDocumentNomenclatureId(String nomenclatureId);
 }

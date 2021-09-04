@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
@@ -22,18 +23,20 @@ public class FileService {
     private final RestService restService;
 
     @SneakyThrows
-    public void process(MultipartFile archive) {
+    public void process(byte[] archive) {
         String extractFolder = Paths.get(rootFolder)
                 .resolve(UUID.randomUUID().toString()).toAbsolutePath().toString();
-
-        new ZipFile(archive.getResource().getFile())
+        var file = Files.createTempFile("archive", ".zip");
+        Path written = Files.write(file, archive);
+        new ZipFile(written.toFile())
                 .extractAll(extractFolder);
 
         Files.walk(Paths.get(extractFolder)).parallel().forEach(path -> {
             var filename = path.toAbsolutePath().toString();
             try {
                 var bytes = Files.readAllBytes(path);
-                restService.process(filename, bytes);
+                // TODO отдельный эндпоинт для запроса по документам из архива
+                restService.process(filename, bytes, null);
             } catch (IOException e) {
                 throw new IllegalStateException("Всё плохо, файлы не читаются");
             }
