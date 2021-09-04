@@ -31,5 +31,7 @@ public class Document implements Serializable {
 
     private LocalDateTime dateOfUploading;
 
+    private String title;
+
     private String state;
 }
