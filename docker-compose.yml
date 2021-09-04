@@ -38,7 +38,12 @@ services:
       - "8081:8081"
     depends_on:
       - db
-
+  javanode:
+    build:
+      context: ./backend_java/nodes
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
 
 
 
