@@ -2,12 +2,14 @@ import { scrollStyle } from '../../styles/scroll'
 import { theme } from '../../styles/theme'
 
 export const mainPageStyle = {
-  height: '100%'
+  height: '100%',
+  minHeight: '100vh'
 }
 
 export const mainPageSiderStyle = {
   background: theme.backgroundColor2,
   padding: '20px 0px',
+  height: '100vh',
 
   '.ant-layout-sider-children': {
     display: 'flex',
@@ -28,5 +30,6 @@ export const buttonStyle = {
 
 export const contentStyle = {
   overflow: 'auto',
+  height: '100vh',
   ...scrollStyle
 }

@@ -40,7 +40,7 @@ export const mainLayoutContentStyles = {
 
 export const containerStyles = {
   margin: '0 auto',
-  maxWidth: '1000px',
+  maxWidth: '100%',
   height: '100%',
   padding: '0 20px'
 }

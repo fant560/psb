@@ -14,7 +14,7 @@ import {
 import { Layout, Button } from 'antd'
 import { FileSyncOutlined, UserOutlined } from '@ant-design/icons'
 import { AuthContext } from '../../contexts/AuthContext'
-import { DOCUMENTS_PAGE } from '../../Routes/routes.paths'
+import { DOCUMENTS_PAGE, PSB_DOCUMENTS_PAGE } from '../../Routes/routes.paths'
 import { SocketContext } from '../../contexts/SocketContext'
 import { useHttp } from '../../hooks/http.hook'
 import { getCookie } from '../../utils'
@@ -68,9 +68,9 @@ const MainLayout = ({ children }) => {
       <Layout.Content css={mainLayoutStyles}>
         <div css={containerStyles}>
           <Layout.Header css={mainLayoutHeaderStyles}>
-            <Link to={DOCUMENTS_PAGE} css={linkLogoStyles}>
+            <Link to={PSB_DOCUMENTS_PAGE} css={linkLogoStyles}>
               <FileSyncOutlined css={headerLogoStyles} />
-              <div css={headerTitleStyles}>Transcribify</div>
+              <div css={headerTitleStyles}>Документы корпоративных клиентов</div>
             </Link>
 
             <div css={usernameHeaderStyles}>
