@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest
+// @SpringBootTest
 class BackendJavaApplicationTests {
 
-    @Test
+    // @Test
     public void doApiTest() throws Exception {
         var restTemplate = new RestTemplate();
-        var userPasswordString = "Niyammon:Niyammonh1h";
+        var userPasswordString = "";
         var authHeader = new String(Base64.getEncoder().encode(userPasswordString.getBytes(StandardCharsets.UTF_8)));
         var objectMapper = new ObjectMapper();
         var url = "http://elib-hackathon.psb.netintel.ru/elib/api/service/documents";
@@ -61,7 +61,7 @@ class BackendJavaApplicationTests {
         System.out.println(response.getBody());
     }
 
-    @Test
+    // @Test
     void contextLoads() {
     }
 

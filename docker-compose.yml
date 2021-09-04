@@ -30,6 +30,14 @@ services:
       - "3000:3000"
     depends_on:
       - web
+  java_backend:
+    build:
+      context: ./backend_java
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
 
 
 

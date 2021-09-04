@@ -1,1 +1,0 @@
-curl --location --request POST "http://elib-hackathon.psb.netintel.ru/elib/api/service/documents" --header "Authorization: Basic Tml5YW1tb246Tml5YW1tb25oMWg=" --form "attachments=@"123.txt"" --form "createRequest="{\"id\": 123, \"unrecognized\":true}""
