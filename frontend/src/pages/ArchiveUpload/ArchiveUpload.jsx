@@ -1,6 +1,13 @@
+import UploadFileForm from '../../components/UploadFileForm/UploadFileForm'
 
 const ArchiveUpload = () => {
-  return <h1>Страница загрузки архива</h1>
+  return (
+    <div>
+      <h1>Загрузить архив документов</h1>
+      <br />
+      <UploadFileForm onlyFilePicker={true} />
+    </div>
+  )
 }
 
 export default ArchiveUpload

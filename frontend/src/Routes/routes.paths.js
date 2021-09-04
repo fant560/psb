@@ -6,3 +6,4 @@ export const PSB_DOCUMENTS_PAGE = '/corporate_documents'
 export const PSB_FILE_UPLOAD = 'file_upload'
 export const PSB_ARCHIVE_UPLOAD = 'archive_upload'
 export const PSB_DOCUMENTS_LIST = 'documents_grid'
+export const PSB_DOCUMENT = `${PSB_DOCUMENTS_LIST}/:id`

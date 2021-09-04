@@ -15,38 +15,18 @@ const Document = () => {
   const auth = useContext(AuthContext)
   const params = useParams()
 
-  useEffect(() => {
-    const getDocumentById = async () => {
-      const data = await request(`/ml/document/${params.id}`, 'GET', null, {
-        Authorization: `Bearer ${auth.accessToken}`
-      })
-      setDocument(data)
-    }
+  // useEffect(() => {
+  //   const getDocumentById = async () => {
+  //     const data = await request(`/ml/document/${params.id}`, 'GET', null, {
+  //       Authorization: `Bearer ${auth.accessToken}`
+  //     })
+  //     setDocument(data)
+  //   }
 
-    getDocumentById()
-  }, [params.id, request, auth.accessToken])
+  //   getDocumentById()
+  // }, [params.id, request, auth.accessToken])
 
-  return (
-    <>
-      <div css={documentHeaderStyle}>
-        {/* <Link to={DOCUMENTS_PAGE}>
-          <Button icon={<ArrowLeftOutlined />}>Назад</Button>
-        </Link> */}
-        <div>{document.title}</div>
-        <Button icon={<DownloadOutlined />}>Скачать документ</Button>
-      </div>
-      <Divider css={dividerStyle} />
-      <div>
-        {loading ? (
-          <Spin />
-        ) : (
-          <div css={documentTextStyle}>
-            <ReactMarkdown>{document.text}</ReactMarkdown>
-          </div>
-        )}
-      </div>
-    </>
-  )
+  return <h1>Документ {params.id}</h1>
 }
 
 export default Document

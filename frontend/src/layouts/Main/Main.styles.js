@@ -2,14 +2,14 @@ import { theme } from '../../styles/theme'
 
 export const mainLayoutStyles = {
   height: '100vh',
-  background: theme.backgroundColor
+  background: '#4B90FF'
 }
 
 export const mainLayoutHeaderStyles = {
   background: '#051529',
   display: 'flex',
   alignItems: 'center',
-  marginBottom: '20px'
+  marginBottom: '3px'
 }
 
 export const headerLogoStyles = {
@@ -35,14 +35,14 @@ export const headerTitleStyles = {
 
 export const mainLayoutContentStyles = {
   background: theme.backgroundColor2,
-  height: 'calc(100% - 84px)',
+  height: 'calc(100% - 67px)',
   overflow: 'hidden'
 }
 
 export const containerStyles = {
   margin: '0 auto',
   maxWidth: '100%',
-  height: '100%',
+  height: '100%'
 }
 
 export const linkLogoStyles = {
