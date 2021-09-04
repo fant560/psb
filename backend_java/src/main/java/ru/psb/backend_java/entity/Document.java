@@ -1,10 +1,13 @@
 package ru.psb.backend_java.entity;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Builder
 public class Document implements Serializable {
 
     @Id
@@ -12,6 +15,8 @@ public class Document implements Serializable {
     private Long id;
 
     private String documentNomenclatureId;
+
+    private String inn;
 
     @Column(columnDefinition = "bool default false")
     private Boolean unrecognized;

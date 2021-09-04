@@ -33,11 +33,10 @@ public class FileService {
             var filename = path.toAbsolutePath().toString();
             try {
                 var bytes = Files.readAllBytes(path);
-
+                restService.process(filename, bytes);
             } catch (IOException e) {
                 throw new IllegalStateException("Всё плохо, файлы не читаются");
             }
         });
     }
-
 }

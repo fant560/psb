@@ -42,7 +42,8 @@ def get_pdf_images(doc_file, request_id):
 
 @celery.task(name="annotate_doc")
 def annotate_doc(doc_file, model_name = None, languages = None, score_thresh_test = None, label_map = None):
-    model_name = model_name or 'lp://PubLayNet/faster_rcnn_R_50_FPN_3x/config'
+    model_name = model_name or 'lp://PrimaLayout/mask_rcnn_R_50_FPN_3x/config'
+    print(f"using model {model_name}")
     languages = languages or ['rus', 'eng']
     score_thresh_test = score_thresh_test or 0.8
     task_id = annotate_doc.request.id
@@ -58,6 +59,7 @@ def annotate_doc(doc_file, model_name = None, languages = None, score_thresh_tes
         image = cv2.imread(image_file)
         image = image[...,::-1]
         layout = model.detect(image)
+        print(layout)
         for block in layout:
             segment_image = (block
                        .pad(left=5, right=5, top=5, bottom=5)

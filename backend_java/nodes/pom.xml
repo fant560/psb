@@ -8,34 +8,18 @@
         <version>2.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ru.psb</groupId>
-    <artifactId>backend_java</artifactId>
+    <groupId>com.example</groupId>
+    <artifactId>nodes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend_java</name>
-    <description>backend_java</description>
+    <name>nodes</name>
+    <description>nodes</description>
     <properties>
         <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <dependency>
@@ -45,32 +29,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>net.lingala.zip4j</groupId>
-            <artifactId>zip4j</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>1.9</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
