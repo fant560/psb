@@ -49,7 +49,9 @@ const DocumentsListMain = () => {
 
         const getDocuments = async () => {
             const data = await request('/api/index', 'GET', null)
-            setDocuments(data.documents)
+            console.log("Data")
+            console.log(data)
+            setDocuments(data)
         }
 
         getDocuments()
