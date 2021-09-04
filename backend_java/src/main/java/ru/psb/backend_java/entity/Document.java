@@ -18,6 +18,6 @@ public class Document implements Serializable {
 
     private String documentAbsPath;
 
-    @OneToMany(mappedBy = "document_criteria")
+    @OneToMany
     private List<DocumentCriteria> documentCriteriaList;
 }
