@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Entity
 public class LegalEntity implements Serializable {
-    // TODO добавить свойств
     @Id
     @GeneratedValue
     private Long id;
@@ -16,5 +15,5 @@ public class LegalEntity implements Serializable {
 
     private String address;
 
-    private String bik;
+    private String inn;
 }

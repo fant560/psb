@@ -20,13 +20,6 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      - ml
-  ml:
-    build:
-      context: ./ml
-      dockerfile: Dockerfile  
-    ports: 
-      - "9090:9090"
   frontend:
     build:
       context: ./frontend

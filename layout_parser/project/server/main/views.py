@@ -58,13 +58,18 @@ def annoate_document():
     request_json_data = request.form.get('data')
     if request_json_data:
         request_data = json.loads(request_json_data)
+        model_name = request_data.get('model_name')
+        languages = request_data.get('languages')
+        score_thresh_test = request_data.get('score_thresh_test')
+        label_map = request_data.get('label_map')
+        label_map = {int(k): v for k, v in label_map.items()}
     else:
         request_data = {}
-    model_name = request_data.get('model_name')
-    languages = request_data.get('languages')
-    score_thresh_test = request_data.get('score_thresh_test')
-    label_map = request_data.get('label_map')
-    label_map = {int(k): v for k,v in label_map.items()}
+        model_name = None
+        languages = None
+        score_thresh_test = None
+        label_map = None
+
     files = request.files
     if 'file' not in files:
         return jsonify({'status': 'error', 'message': 'no "file" attribute'}), 400
