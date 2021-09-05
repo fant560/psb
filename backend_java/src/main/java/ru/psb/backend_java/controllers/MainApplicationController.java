@@ -37,6 +37,7 @@ public class MainApplicationController {
 
     @PostMapping(value = "/uploadArchive")
     public ResponseEntity<?> uploadArchive(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+        log.info("Request for upload archive");
         var split = multipartFile.getOriginalFilename().split("\\.");
         var content = multipartFile.getBytes();
         var filename = multipartFile.getOriginalFilename();
@@ -50,18 +51,19 @@ public class MainApplicationController {
         }
     }
 
-    @PostMapping(value = "/uploadDocument", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/uploadDocument", consumes = {"multipart/form-data"}, produces = "application/json")
     public ResponseEntity<?> uploadDocument(@RequestParam("file") MultipartFile multipartFile,
                                             @RequestParam("inn") String inn,
                                             @RequestParam("nomenclature") String nomenclature) throws Exception {
+        log.info("Request for upload document");
         var fileInfo = FileInfo.builder()
-                        .inn(inn)
-                                .nomenclature(nomenclature)
-                                        .filename(multipartFile.getOriginalFilename())
-                                                .bytes(multipartFile.getBytes())
+                .inn(inn)
+                .nomenclature(nomenclature)
+                .filename(multipartFile.getOriginalFilename())
+                .bytes(multipartFile.getBytes())
                 .build();
         executorService.submit(() -> documentService.process(fileInfo));
-        return ResponseEntity.ok("Успешно загружен");
+        return ResponseEntity.ok("{}");
 
     }
 
@@ -71,28 +73,7 @@ public class MainApplicationController {
         log.info("Найдено {} документов", documents.size());
         return documentService.findAll();
     }
-
-    @GetMapping(value = "/getDocuments")
-    public ResponseEntity<?> getDocuments() throws Exception {
-        var documentMap = new HashMap<String, Object>();
-        var rootFolderFilepath = Paths.get(".").toAbsolutePath()
-                .resolve("src")
-                .resolve("main")
-                .resolve("resources")
-                .resolve(rootDocumentFolder);
-
-        Files.walk(rootFolderFilepath).forEach(path -> {
-            var file = new File(path.toAbsolutePath().toString());
-            if (file.isDirectory() && Arrays.stream(Objects.requireNonNull(file.listFiles()))
-                    .noneMatch(File::isDirectory)) {
-                documentMap.put(rootFolderFilepath.relativize(path).toString(), Arrays.stream(Objects.requireNonNull(file.listFiles()))
-                        .map(File::getName)
-                        .collect(Collectors.toList()));
-            }
-        });
-        return ResponseEntity.ok(documentMap);
-    }
-
+    
     @GetMapping(value = "/document/{id}")
     public ResponseEntity<?> getDocument(@PathVariable("id") Long documentId) {
         return ResponseEntity.ok(documentService.findById(documentId));
