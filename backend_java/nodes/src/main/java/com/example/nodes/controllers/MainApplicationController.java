@@ -35,13 +35,13 @@ public class MainApplicationController {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${text.recognition.url:http://localhost:5004/annotate_document}")
+    @Value("${text.recognition.url:http://webserver:5004/annotate_document}")
     private String textRecognition;
 
-    @Value("${text.recognition.task.url:http://localhost:5004/tasks/}")
+    @Value("${text.recognition.task.url:http://webserver:5004/tasks/}")
     private String taskStatus;
 
-    @Value("${text.recognition.response:http://localhost:8081/api/response}")
+    @Value("${text.recognition.response:http://javabackend:8081/api/response}")
     private String gatewayUrl;
 
     @RequestMapping(value = "/upload")

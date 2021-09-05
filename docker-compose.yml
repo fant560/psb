@@ -1,6 +1,5 @@
-version: '3.1'
+version: '3.8'
 services:
-
   db:
     image: postgres
     restart: always
@@ -45,7 +44,58 @@ services:
     ports:
       - "8082:8082"
 
+  webserver:
+    build: .
+    image: web
+    container_name: webserver
+    ports:
+      - 5004:5000
+    command: flask run -h 0.0.0.0
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - FLASK_APP=project.server
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    command: celery --app=project.server.tasks.celery worker --loglevel=info --logfile=project/logs/celery.log
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - webserver
+      - redis
+
+  dashboard:
+    build: .
+    command: celery --app=project.server.tasks.celery --broker=redis://redis:6379/0 flower --port=5555
+    ports:
+      - 5556:5555
+    environment:
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.server.config.DevelopmentConfig
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - webserver
+      - redis
+      - worker
+
+  redis:
+    image: redis:6-alpine
 
 
 
-        
+
+
+

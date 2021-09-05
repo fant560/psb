@@ -53,11 +53,12 @@ public class MainApplicationController {
 
     @PostMapping(value = "/uploadDocument", consumes = {"multipart/form-data"}, produces = "application/json")
     public ResponseEntity<?> uploadDocument(@RequestParam("file") MultipartFile multipartFile,
-                                            @RequestParam("inn") String inn,
+                                            @RequestParam("inn") Object inn,
                                             @RequestParam("nomenclature") String nomenclature) throws Exception {
         log.info("Request for upload document");
+
         var fileInfo = FileInfo.builder()
-                .inn(inn)
+                .inn(inn instanceof String ? (String) inn : ((Number) inn).toString())
                 .nomenclature(nomenclature)
                 .filename(multipartFile.getOriginalFilename())
                 .bytes(multipartFile.getBytes())
@@ -73,7 +74,7 @@ public class MainApplicationController {
         log.info("Найдено {} документов", documents.size());
         return documentService.findAll();
     }
-    
+
     @GetMapping(value = "/document/{id}")
     public ResponseEntity<?> getDocument(@PathVariable("id") Long documentId) {
         return ResponseEntity.ok(documentService.findById(documentId));

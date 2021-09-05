@@ -21,11 +21,11 @@ public class RestService {
 
     private final RestTemplate restTemplate;
     // TODO несколько инстансов
-    @Value("${nodes.node.1:http://localhost:8082/api/upload}")
+    @Value("${nodes.node.1:http://javanode:8082/api/upload}")
     private String node1;
-    @Value("${nodes.node.2:http://localhost:8082/api/upload}")
+    @Value("${nodes.node.2:http://javanode:8082/api/upload}")
     private String node2;
-    @Value("${nodes.node.3:http://localhost:8082/api/upload}")
+    @Value("${nodes.node.3:http://javanode:8082/api/upload}")
     private String node3;
 
     public void process(String filename, byte[] file, Long documentId) {
